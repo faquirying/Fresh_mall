@@ -119,6 +119,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,"static")
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR,"static")
+# ]
+
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "static")
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")  # 当前项目的静态文件根目录
+
+# CKEDITOR_UPLOAD_PATH = 'static/upload'  # 基于ckeditor的上传地址
+# CKEDITOR_IMAGE_BACKEND = 'pillow' # ckeditor上传图片使用的模块
