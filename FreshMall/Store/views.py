@@ -187,14 +187,18 @@ def list_goods(request):
     # 返回分页数据
     return render(request, "store/list_goods.html", {"page": page, "page_range": page_range, "keywords": keywords})
 
-
+# 货物列表销毁项
 def destroy(request):
     goods_id = request.GET.get("goods_id")
     # print(goods_id)
-    del_id = Goods.objects.filter(id=goods_id).first()
+    del_id = Goods.objects.get(id=goods_id)
     del_id.delete()
     return HttpResponseRedirect("/store/list_goods/")
 
 
-
+# 列表详情页
+def descript_goods(request):
+    goods = Goods.objects.all()
+    # print(goods)
+    return render(request,"store/descript_goods.html",locals())
 

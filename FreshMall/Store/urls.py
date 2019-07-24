@@ -10,4 +10,5 @@ urlpatterns = [
     path('add_goods/', add_goods),
     path('list_goods/', list_goods),
     path('destroy/', destroy),
+    path('descript_goods/', descript_goods),
 ]
