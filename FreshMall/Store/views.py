@@ -15,7 +15,11 @@ def set_password(password):
 
 
 def register(request):
-    result = {"content": ""}
+    """
+    register注册
+    返回注册页面
+    进行注册数据保存
+    """
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -27,12 +31,8 @@ def register(request):
                 seller.password = set_password(password)
                 seller.nickname = username
                 seller.save()
-                return HttpResponseRedirect("/store/login")
-            else:
-                result["content"] = "用户名已存在"
-        else:
-            result["content"] = "用户名或密码不能为空"
-    return render(request,"store/register.html",locals())
+                return HttpResponseRedirect("/store/login/")
+    return render(request,"store/register.html", locals())
 
 
 def loginValid(fun):
@@ -40,10 +40,9 @@ def loginValid(fun):
         c_user = request.COOKIES.get("username")
         s_user = request.session.get("username")
         if c_user and s_user and c_user == s_user:
-            user = Seller.objects.filter(username=c_user).first()
-            if user:
-                return fun(request,*args,**kwargs)
-        return HttpResponseRedirect("/store/login")
+            return fun(request,*args,**kwargs)
+        else:
+            return HttpResponseRedirect("/store/login")
     return inner
 
 
@@ -52,20 +51,7 @@ def index(request):
     """
     添加检查账号是否有店铺的逻辑
     """
-    #查询当前用户是谁
-    user_id = request.COOKIES.get("user_id")
-    if user_id:
-        user_id = int(user_id)
-    else:
-        user_id = 0
-    #通过用户查询店铺是否存在(店铺和用户通过用户的id进行关联)
-    store = Store.objects.filter(user_id=user_id).first()
-    if store:
-        is_store = 1
-    else:
-        is_store = 0
-    result = {"is_store": is_store}
-    return render(request,"store/index.html",locals())
+    return render(request,"store/index.html")
 
 
 def login(request):
@@ -79,16 +65,24 @@ def login(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
         if username and password:
+            # 校验的是用户名是否存在
             user = Seller.objects.filter(username = username).first()
             if user:
                 web_password = set_password(password)
+                # 校验请求是否来源于登录界面
                 cookies = request.COOKIES.get("login_from")
-                if user.password == web_password and cookies == "login_page":
+                # 校验密码是否正确
+                if user.password == web_password and cookies == "login_page":  # 请求是否来源登录页面
                     response = HttpResponseRedirect("/store/index")
-                    response.set_cookie("username",username)
-                    response.set_cookie("user_id",user.id)
+                    response.set_cookie("username", username)
+                    response.set_cookie("user_id", user.id)  # cookie提供用户id方便其他功能查询
                     request.session["username"] = username
-                    return response
+                    # 校验是否有店铺
+                    store = Store.objects.filter(user_id=user.id).first() # 再查询店铺是否存在
+                    if store:
+                        response.set_cookie("has_store", store.id)
+                    else:
+                        response.set_cookie("has_store", "")
     return response
 
 
@@ -102,6 +96,7 @@ def base(request):
     return render(request,"store/base.html",locals())
 
 # 添加店铺
+@loginValid
 def register_store(request):
     type_list = StoreType.objects.all()
     if request.method == "POST":
@@ -132,7 +127,9 @@ def register_store(request):
             store_type = StoreType.objects.get(id=i)  # 查询类型数据
             store.type.add(store_type)  # 添加到类型字段，多对多的映射表
         store.save()  # 保存数据
-        return HttpResponseRedirect("/store/list_goods")
+        response = HttpResponseRedirect("/store/list_goods")
+        response.set_cookie("has_store", store.id)
+        return response
     return render(request, "store/register_store.html", locals())
 
 
@@ -148,7 +145,7 @@ def add_goods(request):
         goods_description = request.POST.get("goods_description")
         goods_date = request.POST.get("goods_date")
         goods_safeDate = request.POST.get("goods_safeDate")
-        goods_store = request.POST.get("goods_store")
+        goods_store = request.POST.get("has_store")
         goods_image = request.FILES.get("goods_image")
         # 2. 开始保存数据
         goods = Goods()
@@ -165,9 +162,10 @@ def add_goods(request):
             Store.objects.get(id=int(goods_store))
         )
         goods.save()
+        return HttpResponseRedirect("/store/list_goods")
     return render(request, "store/add_goods.html")
 
-
+@loginValid
 def list_goods(request):
     """
     商品的列表页
@@ -175,10 +173,12 @@ def list_goods(request):
     # 获取两个关键字
     keywords = request.GET.get("keywords", "")  # 查询关键词
     page_num = request.GET.get("page_num", 1)  # 页码
+    store_id = request.COOKIES.get("has_store")
+    store = Store.objects.get(id=int(store_id))
     if keywords:  # 判断关键词是否存在
-        goods_list = Goods.objects.filter(goods_name__contains=keywords)  # 完成了模糊查询
+        goods_list = store.goods_set.filter(goods_name__contains=keywords)  # 完成了模糊查询
     else:  # 如果关键词不存在，查询所有
-        goods_list = Goods.objects.all()
+        goods_list = store.goods_set.all()
     # 分页，每页3条
     paginator = Paginator(goods_list, 5)
     page = paginator.page(int(page_num))
@@ -197,8 +197,37 @@ def destroy(request):
 
 
 # 列表详情页
-def descript_goods(request):
-    goods = Goods.objects.all()
-    # print(goods)
+@loginValid
+def descript_goods(request,goods_id):
+    goods_data = Goods.objects.filter(id = goods_id).first()
     return render(request,"store/descript_goods.html",locals())
 
+
+# 详情修改页
+@loginValid
+def update_goods(request,goods_id):
+    goods_data = Goods.objects.filter(id=goods_id).first()
+    if request.method == "POST":
+        # 获取post请求
+        goods_name = request.POST.get("goods_name")
+        goods_price = request.POST.get("goods_price")
+        goods_number = request.POST.get("goods_number")
+        goods_description = request.POST.get("goods_description")
+        goods_date = request.POST.get("goods_date")
+        goods_safeDate = request.POST.get("goods_safeDate")
+        goods_image = request.FILES.get("goods_image")
+        # 修改数据
+        goods = Goods.objects.get(id = int(goods_id))  # 获取当前商品
+        goods.goods_name = goods_name
+        goods.goods_price = goods_price
+        goods.goods_number = goods_number
+        goods.goods_description = goods_description
+        goods.goods_date = goods_date
+        goods.goods_safeDate = goods_safeDate
+        # 如果有上传图片再发起修改
+        if goods_image:
+            goods.goods_image = goods_image
+        goods.save()
+        return HttpResponseRedirect("/store/descript_goods/%s/"%goods_id)
+        # 保存多对多数据
+    return render(request,"store/update_goods.html",locals())

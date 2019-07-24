@@ -1,6 +1,13 @@
 {% extends "store/base.html" %}
 {% block label %}
-    <a class="btn btn-danger" href="/store/add_goods">添加商品</a>
+    <a class="btn btn-danger" href="/store/add_goods"/>添加商品</a>
+{% endblock %}
+{% block style %}
+    <style>
+        a{
+            text-decoration: none;
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <table class="table table-bordered">
@@ -17,7 +24,7 @@
         <tbody>
         {% for goods in page %}
             <tr>
-                <td>{{ goods.goods_name }}</td>
+                <td><a href="/store/descript_goods/{{ goods.id }}/">{{ goods.goods_name }}</a></td>
                 <td>{{ goods.goods_price }}</td>
                 <td>{{ goods.goods_number }}</td>
                 <td>{{ goods.goods_date }}</td>

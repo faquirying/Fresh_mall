@@ -31,6 +31,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
+   {% if request.COOKIES.has_store %}
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
@@ -38,7 +39,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">店铺管理平台</div>
+        <div class="sidebar-brand-text mx-3">商铺管理系统</div>
       </a>
 
       <!-- Divider -->
@@ -46,19 +47,12 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        {% if is_store %}
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="/store/index/">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>店铺管理</span>
         </a>
-        {% else %}
-        <a class="nav-link" href="/store/register_store">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>没有店铺，注册一个</span>
-        </a>
-        {% endif %}
-      </li>
 
+      </li>
       <!-- Divider -->
       <hr class="sidebar-divider">
 
@@ -76,13 +70,32 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">商品管理:</h6>
-            <a class="collapse-item" href="/store/add_goods">添加商品</a>
-            <a class="collapse-item" href="/store/list_goods">商品列表</a>
-            <a class="collapse-item" href="/store/descript_goods">商品详情</a>
+            <a class="collapse-item" href="/store/add_goods/">添加商品</a>
+            <a class="collapse-item" href="/store/list_goods/">商品列表</a>
           </div>
         </div>
       </li>
     </ul>
+  {% else %}
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">商铺管理系统{{ request.COOKIES.has_store }}</div>
+      </a>
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+       <a class="nav-link" href="/store/register_store/">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>没有店铺，注册一个</span>
+        </a>
+      </li>
+    </ul>
+  {% endif %}
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
