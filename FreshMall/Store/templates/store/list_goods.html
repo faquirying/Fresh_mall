@@ -13,7 +13,7 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>商品名称</th>
+            <th>商品类型名称</th>
             <th>商品价格</th>
             <th>商品数量</th>
             <th>出厂日期</th>
@@ -30,8 +30,13 @@
                 <td>{{ goods.goods_date }}</td>
                 <td>{{ goods.goods_safeDate }}</td>
                 <td>
-                    <a href="#" class="btn btn-danger" name="updown">下架</a>
-                    <a href="/store/destroy/?goods_id={{ goods.id }}" class="btn btn-primary" name="destroy">销毁</a>
+{#                   将state传到视图中#}
+                    {% ifequal state "up" %}
+                    <a href="/store/set_goods/down/?id={{ goods.id }}" class="btn btn-danger" name="updown">下架</a>
+                    {% else %}
+                    <a href="/store/set_goods/up/?id={{ goods.id }}" class="btn btn-danger" name="updown">上架</a>
+                    {% endifequal %}
+                    <a href="/store/set_goods/delete/?id={{ goods.id }}" class="btn btn-primary" name="destroy">销毁</a>
                 </td>
             </tr>
         {% endfor %}

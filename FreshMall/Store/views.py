@@ -145,7 +145,7 @@ def add_goods(request):
         goods_description = request.POST.get("goods_description")
         goods_date = request.POST.get("goods_date")
         goods_safeDate = request.POST.get("goods_safeDate")
-        goods_store = request.POST.get("has_store")
+        goods_store = request.POST.get("goods_store")
         goods_image = request.FILES.get("goods_image")
         # 2. 开始保存数据
         goods = Goods()
@@ -162,30 +162,34 @@ def add_goods(request):
             Store.objects.get(id=int(goods_store))
         )
         goods.save()
-        return HttpResponseRedirect("/store/list_goods")
+        return HttpResponseRedirect("/store/list_goods/up/")
     return render(request, "store/add_goods.html")
 
 @loginValid
-def list_goods(request):
+def list_goods(request,state):
     """
     商品的列表页
     """
+    if state == "up":
+        state_num = 1
+    else:
+        state_num = 0
     # 获取两个关键字
     keywords = request.GET.get("keywords", "")  # 查询关键词
     page_num = request.GET.get("page_num", 1)  # 页码
     store_id = request.COOKIES.get("has_store")
     store = Store.objects.get(id=int(store_id))
     if keywords:  # 判断关键词是否存在
-        goods_list = store.goods_set.filter(goods_name__contains=keywords)  # 完成了模糊查询
+        goods_list = store.goods_set.filter(goods_name__contains=keywords,goods_status=state_num)  # 完成了模糊查询
     else:  # 如果关键词不存在，查询所有
-        goods_list = store.goods_set.all()
+        goods_list = store.goods_set.filter(goods_status=state_num)
     # 分页，每页3条
-    paginator = Paginator(goods_list, 5)
+    paginator = Paginator(goods_list, 3)
     page = paginator.page(int(page_num))
     page_range = paginator.page_range
     print(page_range)
     # 返回分页数据
-    return render(request, "store/list_goods.html", {"page": page, "page_range": page_range, "keywords": keywords})
+    return render(request, "store/list_goods.html", {"page": page, "page_range": page_range, "keywords": keywords,"state": state})
 
 # 货物列表销毁项
 def destroy(request):
@@ -194,6 +198,24 @@ def destroy(request):
     del_id = Goods.objects.get(id=goods_id)
     del_id.delete()
     return HttpResponseRedirect("/store/list_goods/")
+
+
+# 货物下架
+def set_goods(request,state):
+    if state == "up":
+        state_num = 1
+    else:
+        state_num = 0
+    id = request.GET.get("id")  # gei到id
+    referer = request.META.get("HTTP_REFERER")  # 返回当前请求的来源地址
+    if id:
+        goods = Goods.objects.filter(id = int(id)).first()
+        if state == "delete":
+            goods.delete()
+        else:
+            goods.goods_status = state_num
+            goods.save()
+    return HttpResponseRedirect(referer)
 
 
 # 列表详情页
@@ -231,3 +253,36 @@ def update_goods(request,goods_id):
         return HttpResponseRedirect("/store/descript_goods/%s/"%goods_id)
         # 保存多对多数据
     return render(request,"store/update_goods.html",locals())
+
+
+def add_goods_type(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        print(name)
+        picture = request.POST.get("picture")
+        description = request.POST.get("description")
+        goodtype = GoodsType()
+        goodtype.name = name
+        goodtype.picture = picture
+        goodtype.description = description
+        goodtype.save()
+        return HttpResponseRedirect("/store/goods_type/")
+    return render(request, "store/type_list_goods.html")
+
+
+def goods_type(request):
+    page_num = request.GET.get("page_num", 1)  # 页码
+    goods_type = GoodsType.objects.all()
+    paginator = Paginator(goods_type, 3)
+    page = paginator.page(int(page_num))
+    page_range = paginator.page_range
+    return render(request, "store/type_list_goods.html",locals())
+
+
+def delete_goods_type(request):
+    referer = request.META.get("HTTP_REFERER")
+    id = request.GET.get("id")
+    goods = GoodsType.objects.filter(id=int(id))
+    goods.delete()
+    return HttpResponseRedirect(referer)
+
