@@ -137,6 +137,7 @@ def add_goods(request):
     """
     负责添加商品
     """
+    goods_type_list = GoodsType.objects.all()
     if request.method == "POST":
         # 1. 获取post请求
         goods_name = request.POST.get("goods_name")
@@ -146,6 +147,7 @@ def add_goods(request):
         goods_date = request.POST.get("goods_date")
         goods_safeDate = request.POST.get("goods_safeDate")
         goods_store = request.POST.get("goods_store")
+        goods_type = request.POST.get("goods_type")
         goods_image = request.FILES.get("goods_image")
         # 2. 开始保存数据
         goods = Goods()
@@ -156,6 +158,7 @@ def add_goods(request):
         goods.goods_date = goods_date
         goods.goods_safeDate = goods_safeDate
         goods.goods_image = goods_image
+        goods.goods_type = GoodsType.objects.get(id=int(goods_type))
         goods.save()
         # 3. 保存多对多数据
         goods.store_id.add(
@@ -163,7 +166,7 @@ def add_goods(request):
         )
         goods.save()
         return HttpResponseRedirect("/store/list_goods/up/")
-    return render(request, "store/add_goods.html")
+    return render(request, "store/add_goods.html",locals())
 
 @loginValid
 def list_goods(request,state):
