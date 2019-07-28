@@ -172,6 +172,8 @@ def pay_result(request):
 
 
 def detail(request):
-    return render(request,"buyer/detail.html")
+    goods_id = request.GET.get("id")
+    goods = Goods.objects.filter(id=int(goods_id)).first()
+    return render(request,"buyer/detail.html",{"goods":goods})
 
 

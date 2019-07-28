@@ -2,53 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef53cbc0-5915-4acc-a0b9-d4e101861646" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Buyer/Alipay.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Buyer/templates/buyer/cart.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Buyer/templates/buyer/detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Buyer/templates/buyer/goods_list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Buyer/templates/buyer/pay.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Buyer/templates/buyer/pay_result.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/FreshMall.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FreshMall.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Buyer/templates/buyer/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Buyer/templates/buyer/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Buyer/templates/buyer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Buyer/templates/buyer/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Buyer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Buyer/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Buyer/templates/buyer/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/Buyer/templates/buyer/detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Buyer/templates/buyer/goods_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Buyer/templates/buyer/goods_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Buyer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Buyer/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Store/templates/oo.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Store/templates/store/add_goods.html" beforeDir="false" afterPath="$PROJECT_DIR$/Store/templates/store/add_goods.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Store/templates/store/list_goods.html" beforeDir="false" afterPath="$PROJECT_DIR$/Store/templates/store/list_goods.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Store/templates/store/type_list_goods.html" beforeDir="false" afterPath="$PROJECT_DIR$/Store/templates/store/type_list_goods.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Store/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Store/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Store/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Store/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/01.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/01_2Dbjoao.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/01_53coNDx.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/01_JcX1uMT.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/01_NtwqAaX.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/15621383501.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/20171123181522_c48800.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/20171123181522_c48800_GUO9Xmd.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/403855.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/403855_4ZYndzS.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/410127.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/482303.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/6b72204e251f95ca88bde101c7177f3e660952b1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/benbenla-07c.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/mlxg.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/timg.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/timg_ZIkMe4j.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/timg_a0h6XxF.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/timg_a595Kjb.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/刀锋.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/千与千寻.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/壁纸.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/御剑传说.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/微信图片.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/微信图片_60p2tpK.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/微信图片_rDRnM3I.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/store/images/葫芦娃.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -95,11 +54,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Buyer/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="650">
-              <caret line="29" column="12" lean-forward="true" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="12" />
+            <state relative-caret-position="303">
+              <caret line="172" lean-forward="true" selection-start-line="172" selection-end-line="172" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -108,50 +67,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Buyer/templates/buyer/pay_result.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="4" selection-start-column="4" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Buyer/Alipay.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="775">
-              <caret line="31" selection-start-line="31" selection-end-line="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Buyer/templates/buyer/goods_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="19" column="49" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="49" />
+            <state relative-caret-position="300">
+              <caret line="27" column="121" selection-start-line="27" selection-start-column="121" selection-end-line="27" selection-end-column="121" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Buyer/templates/buyer/detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="975">
-              <caret line="39" column="24" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
+            <state relative-caret-position="275">
+              <caret line="11" column="84" selection-start-line="11" selection-start-column="84" selection-end-line="11" selection-end-column="84" />
               <folding>
-                <element signature="e#53#188#0#HTML" />
-                <element signature="e#191#1073#0#HTML" />
+                <element signature="e#310#331#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="das://8ebf628a-751d-4147-bc3e-c34387018cb2/schema/main/table/Store_goods">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
+        <entry file="file://$PROJECT_DIR$/Store/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="291">
+              <caret line="44" column="21" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -165,6 +105,15 @@
                 <element signature="e#1195#1410#0#HTML" />
                 <element signature="e#1509#1776#0#HTML" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="das://8ebf628a-751d-4147-bc3e-c34387018cb2/schema/main/table/Store_goods">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
             </state>
           </provider>
         </entry>
@@ -257,13 +206,11 @@
         <option value="$PROJECT_DIR$/Buyer/models.py" />
         <option value="$PROJECT_DIR$/Buyer/templates/buyer/register.html" />
         <option value="$PROJECT_DIR$/Buyer/templates/buyer/login.html" />
-        <option value="$PROJECT_DIR$/Store/models.py" />
         <option value="$PROJECT_DIR$/Store/templates/store/add_goods_stype.html" />
         <option value="$PROJECT_DIR$/Store/templates/store/style_list_goods.html" />
         <option value="$PROJECT_DIR$/Store/templates/oo.html" />
         <option value="$PROJECT_DIR$/Store/templates/store/base.html" />
         <option value="$PROJECT_DIR$/Store/urls.py" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
         <option value="$PROJECT_DIR$/Store/templates/store/type_list_goods.html" />
         <option value="$PROJECT_DIR$/Store/templates/store/add_goods.html" />
         <option value="$PROJECT_DIR$/Store/views.py" />
@@ -271,7 +218,6 @@
         <option value="$PROJECT_DIR$/Buyer/AliPay.py" />
         <option value="$PROJECT_DIR$/Buyer/aliPay.py" />
         <option value="$PROJECT_DIR$/Buyer/templates/buyer/index.html" />
-        <option value="$PROJECT_DIR$/Buyer/templates/buyer/goods_list.html" />
         <option value="$PROJECT_DIR$/Buyer/templates/buyer/cart.html" />
         <option value="$PROJECT_DIR$/Buyer/templates/buyer/pay.html" />
         <option value="$PROJECT_DIR$/Buyer/templates/buyer/base.html" />
@@ -279,12 +225,16 @@
         <option value="$PROJECT_DIR$/Buyer/Alipay.py" />
         <option value="$PROJECT_DIR$/Buyer/urls.py" />
         <option value="$PROJECT_DIR$/Buyer/templates/buyer/pay_result.html" />
-        <option value="$PROJECT_DIR$/Buyer/views.py" />
         <option value="$PROJECT_DIR$/../README.md" />
+        <option value="$PROJECT_DIR$/Buyer/views.py" />
+        <option value="$PROJECT_DIR$/Store/models.py" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
+        <option value="$PROJECT_DIR$/Buyer/templates/buyer/goods_list.html" />
+        <option value="$PROJECT_DIR$/Buyer/templates/buyer/detail.html" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="569" />
     <option name="width" value="818" />
     <option name="height" value="754" />
@@ -330,7 +280,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../day11 Django电商项目/参考模板/DjangoShop/FreshShop" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -463,22 +413,23 @@
       <workItem from="1564132537308" duration="792000" />
       <workItem from="1564134077164" duration="13037000" />
       <workItem from="1564188078178" duration="2181000" />
+      <workItem from="1564327036858" duration="1614000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="158602000" />
+    <option name="totallyTimeSpent" value="160216000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20877458" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2118003" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32903227" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.7241936" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.41935483" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3532258" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -495,7 +446,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32980332" />
-      <window_info anchor="right" id="Database" order="4" weight="0.34795764" />
+      <window_info active="true" anchor="right" id="Database" order="4" visible="true" weight="0.18003026" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -649,31 +600,10 @@
     <entry file="file://$PROJECT_DIR$/Buyer/static/buyer/images/banner02.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Buyer/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://8ebf628a-751d-4147-bc3e-c34387018cb2/schema/main/table/Store_store">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://8ebf628a-751d-4147-bc3e-c34387018cb2/schema/main/table/Store_seller">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Store/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="45" column="58" selection-start-line="45" selection-start-column="55" selection-end-line="45" selection-end-column="58" />
         </state>
       </provider>
     </entry>
@@ -789,6 +719,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../前端项目优化计划.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="366">
+            <caret line="17" column="14" lean-forward="true" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Buyer/templates/buyer/pay_result.html">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -803,20 +746,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Buyer/templates/buyer/goods_list.html">
+    <entry file="file://$PROJECT_DIR$/Buyer/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="19" column="49" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="49" />
+        <state relative-caret-position="250">
+          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Buyer/templates/buyer/detail.html">
+    <entry file="file://$PROJECT_DIR$/Buyer/templates/buyer/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="975">
-          <caret line="39" column="24" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
+        <state relative-caret-position="1500">
+          <caret line="60" column="34" selection-start-line="60" selection-start-column="34" selection-end-line="60" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://8ebf628a-751d-4147-bc3e-c34387018cb2/schema/main/table/Store_seller">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Buyer/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Buyer/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="172" lean-forward="true" selection-start-line="172" selection-end-line="172" />
           <folding>
-            <element signature="e#53#188#0#HTML" />
-            <element signature="e#191#1073#0#HTML" />
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -839,42 +805,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Buyer/urls.py">
+    <entry file="file://$PROJECT_DIR$/Store/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+        <state relative-caret-position="291">
+          <caret line="44" column="21" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Buyer/templates/buyer/goods_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="27" column="121" selection-start-line="27" selection-start-column="121" selection-end-line="27" selection-end-column="121" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Buyer/templates/buyer/detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="11" column="84" selection-start-line="11" selection-start-column="84" selection-end-line="11" selection-end-column="84" />
           <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Buyer/templates/buyer/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1500">
-          <caret line="60" column="34" selection-start-line="60" selection-start-column="34" selection-end-line="60" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../前端项目优化计划.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="366">
-            <caret line="17" column="14" lean-forward="true" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Buyer/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="650">
-          <caret line="29" column="12" lean-forward="true" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#310#331#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -41,6 +41,7 @@ class Goods(models.Model):
     goods_price = models.FloatField(verbose_name="商品价格")
     goods_image = models.ImageField(upload_to="store/images", verbose_name="商品图片")
     goods_number = models.IntegerField(verbose_name="商品数量库存")
+    goods_resume = models.TextField(verbose_name="商品简述", null=True,blank=True)
     goods_description = models.TextField(verbose_name="商品描述")
     goods_date = models.DateField(verbose_name="出厂日期")
     goods_safeDate = models.IntegerField(verbose_name="保质期")
