@@ -47,8 +47,8 @@ class Goods(models.Model):
     goods_safeDate = models.IntegerField(verbose_name="保质期")
     goods_status = models.IntegerField(verbose_name="商品状态",default=1)  # 0 下架 1 待售
 
-    goods_type = models.ForeignKey(to=GoodsType, on_delete=models.CASCADE,verbose_name="商品类型")
-    store_id = models.ManyToManyField(to=Store,verbose_name="商品店铺")
+    goods_type = models.ForeignKey(to=GoodsType,on_delete=models.CASCADE,verbose_name="商品类型")
+    store_id = models.ForeignKey(to=Store,on_delete=models.CASCADE,verbose_name="商品店铺")
 
 
 class GoodsImg(models.Model):
@@ -56,12 +56,5 @@ class GoodsImg(models.Model):
     img_description = models.TextField(max_length=32, verbose_name="图片描述")
 
     goods_id = models.ForeignKey(to = Goods,on_delete = models.CASCADE, verbose_name="商品id")
-
-
-
-
-
-
-
 
 # Create your models here.

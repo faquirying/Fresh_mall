@@ -4,6 +4,7 @@ from django.shortcuts import HttpResponse
 from django.core.paginator import Paginator
 from django.shortcuts import HttpResponseRedirect
 from Store.models import *
+from Buyer.models import *
 # Create your views here.
 
 
@@ -159,12 +160,9 @@ def add_goods(request):
         goods.goods_safeDate = goods_safeDate
         goods.goods_image = goods_image
         goods.goods_type = GoodsType.objects.get(id=int(goods_type))
+        goods.store_id = Store.objects.get(id = int(goods_store))
         goods.save()
-        # 3. 保存多对多数据
-        goods.store_id.add(
-            Store.objects.get(id=int(goods_store))
-        )
-        goods.save()
+
         return HttpResponseRedirect("/store/list_goods/up/")
     return render(request, "store/add_goods.html",locals())
 
@@ -274,7 +272,7 @@ def add_goods_type(request):
 
 
 def goods_type(request):
-    page_num = request.GET.get("page_num", 1)  # 页码
+    page_num = request.GET.get("page_num",1)  # 页码
     goods_type = GoodsType.objects.all()
     paginator = Paginator(goods_type, 3)
     page = paginator.page(int(page_num))
@@ -283,9 +281,22 @@ def goods_type(request):
 
 
 def delete_goods_type(request):
+    """
+    删除商品类型
+    """
     referer = request.META.get("HTTP_REFERER")
     id = request.GET.get("id")
     goods = GoodsType.objects.filter(id=int(id))
     goods.delete()
     return HttpResponseRedirect(referer)
+
+
+def order_list(request):
+    """
+    订单列表
+    """
+    store_id = request.COOKIES.get("has_store")
+    order_list = OrderDetail.objects.filter(order_id__order_status=2,goods_store=store_id)
+    return render(request,"store/order_list.html",locals())
+
 

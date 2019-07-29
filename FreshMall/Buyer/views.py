@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import HttpResponse
 from django.shortcuts import HttpResponseRedirect
 
 from Buyer.models import *
@@ -7,6 +8,7 @@ from Store.views import set_password
 
 from alipay import AliPay
 
+import time
 
 # Create your views here.
 def loginValid(fun):
@@ -83,8 +85,6 @@ def login(request):
                 # 方便其他查询
                 response.set_cookie("user_id",user.id)
                 return response
-
-
     return render(request,"buyer/login.html")
 
 
@@ -153,6 +153,10 @@ def pay_order(request):
         notify_url="http://127.0.0.1:8000/buyer/pay_result/"  # 支付完成要跳转的本地异步路由
     )
 
+    order = Order.objects.get(order_id=order_id)
+    order.order_status = 2
+    order.save()
+
     return HttpResponseRedirect("https://openapi.alipaydev.com/gateway.do?" + order_string)  # 跳转支付路由
 
 
@@ -173,7 +177,56 @@ def pay_result(request):
 
 def detail(request):
     goods_id = request.GET.get("id")
-    goods = Goods.objects.filter(id=int(goods_id)).first()
-    return render(request,"buyer/detail.html",{"goods":goods})
+    if goods_id:
+        goods = Goods.objects.filter(id=int(goods_id)).first()
+        if goods:
+            return render(request,"buyer/detail.html",{"goods":goods})
+    return HttpResponse("无法找到商品详情页")
 
+
+def setOrderId(user_id,goods_id,store_id):
+    """
+    生成订单号：时间+用户id + 商品id + 店铺id
+    """
+    strtime = time.strftime("%Y%m%d%H%M%S",time.localtime())
+    return strtime + user_id + goods_id + store_id
+
+
+def order(request):
+    if request.method == "POST":
+        # post 数据
+        count = int(request.POST.get("count"))
+        goods_id = request.POST.get("goods_id")
+        print(count)
+        # cookie的数据
+        user_id = request.COOKIES.get("user_id")
+        # 数据库的数据
+        goods = Goods.objects.get(id=goods_id)
+        store_id = goods.store_id.id
+        price = goods.goods_price
+        # 向订单表提交数据
+        order = Order()
+        order.order_id = setOrderId(str(user_id),str(goods_id),str(store_id))
+        order.goods_count = count
+        order.order_user = Buyer.objects.get(id = user_id)
+        order.order_price = count * price
+        order.order_status = 1
+        order.save()
+        # 向订单详细表提交数据
+        order_detail = OrderDetail()
+        order_detail.order_id = order
+        order_detail.goods_id = goods_id
+        order_detail.goods_name = goods.goods_name
+        order_detail.goods_price = goods.goods_price
+        order_detail.goods_number = count
+        order_detail.goods_total = count * goods.goods_price
+        order_detail.goods_store = store_id
+        order_detail.goods_image = goods.goods_image
+        order_detail.save()
+
+        detail = [order_detail]
+
+        return render(request,"buyer/order.html",locals())
+    else:
+        return HttpResponse('hhh')
 
