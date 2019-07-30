@@ -144,6 +144,7 @@ def add_goods(request):
         goods_name = request.POST.get("goods_name")
         goods_price = request.POST.get("goods_price")
         goods_number = request.POST.get("goods_number")
+        goods_resume = request.POST.get("goods_resume")
         goods_description = request.POST.get("goods_description")
         goods_date = request.POST.get("goods_date")
         goods_safeDate = request.POST.get("goods_safeDate")
@@ -155,6 +156,7 @@ def add_goods(request):
         goods.goods_name = goods_name
         goods.goods_price = goods_price
         goods.goods_number = goods_number
+        goods.goods_resume = goods_resume
         goods.goods_description = goods_description
         goods.goods_date = goods_date
         goods.goods_safeDate = goods_safeDate
@@ -184,13 +186,13 @@ def list_goods(request,state):
         goods_list = store.goods_set.filter(goods_name__contains=keywords,goods_status=state_num)  # 完成了模糊查询
     else:  # 如果关键词不存在，查询所有
         goods_list = store.goods_set.filter(goods_status=state_num)
-    # 分页，每页3条
-    paginator = Paginator(goods_list, 3)
+    # 分页，每页5条
+    paginator = Paginator(goods_list, 5)
     page = paginator.page(int(page_num))
     page_range = paginator.page_range
     print(page_range)
     # 返回分页数据
-    return render(request, "store/list_goods.html", {"page": page, "page_range": page_range, "keywords": keywords,"state": state})
+    return render(request, "store/list_goods.html", {"page": page, "page_range": page_range, "keywords": keywords, "state": state})
 
 # 货物列表销毁项
 def destroy(request):
@@ -210,7 +212,7 @@ def set_goods(request,state):
     id = request.GET.get("id")  # gei到id
     referer = request.META.get("HTTP_REFERER")  # 返回当前请求的来源地址
     if id:
-        goods = Goods.objects.filter(id = int(id)).first()
+        goods = Goods.objects.filter(id=int(id)).first()
         if state == "delete":
             goods.delete()
         else:
@@ -222,7 +224,7 @@ def set_goods(request,state):
 # 列表详情页
 @loginValid
 def descript_goods(request,goods_id):
-    goods_data = Goods.objects.filter(id = goods_id).first()
+    goods_data = Goods.objects.filter(id=goods_id).first()
     return render(request,"store/descript_goods.html",locals())
 
 
