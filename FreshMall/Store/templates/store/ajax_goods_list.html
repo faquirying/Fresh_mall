@@ -1,0 +1,105 @@
+{% extends "store/base.html" %}
+{% block label %}
+    <a class="btn btn-danger" href="/store/add_goods"/>添加商品</a>
+{% endblock %}
+{% block style %}
+    <style>
+        a{
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+{% verbatim myblock %}
+    <div id="goods">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>商品名称</th>
+            <th>商品价格</th>
+            <th>商品数量</th>
+            <th>出厂日期</th>
+            <th>保质期</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr v-for="goods in goods_list">
+                <td><a href="#">{{ goods.goods_name }}</a></td>
+                <td>{{ goods.goods_price }}</td>
+                <td>{{ goods.goods_number }}</td>
+                <td>{{ goods.goods_date }}</td>
+                <td>{{ goods.goods_safeDate }}</td>
+                <td>
+                    <a href="#" class="btn btn-danger" name="updown">下架</a>
+                    <!--
+                    {% ifequal state "up" %}
+                    {% else %}
+                    <a href="/store/set_goods/up/?id={{ goods.id }}" class="btn btn-danger" name="updown">上架</a>
+                    {% endifequal %}
+                    <a href="/store/set_goods/delete/?id={{ goods.id }}" class="btn btn-primary" name="destroy">销毁</a>
+                    -->
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="dataTables_paginate paging-simple_numbers">
+        <ul class="pagination">
+                <li class="paginate_button page-item" v-for="p in page_range">
+                    <a class="page-link" v-if="p>0" href="#" v-on:click="get_page_data(p)">{{ p }}</a>
+                </li>
+        </ul>
+    </div>
+</div>
+{% endverbatim myblock %}
+{% endblock %}
+{% block script %}
+    <script src="/static/buyer/js/vue.min.js"></script>
+    <script src="/static/buyer/js/vue-resource.js"></script>
+    <script>
+        Vue.use(VueResource);  //使用vueresourse 对象
+        var vue = new Vue(
+            {
+                el: "#goods",  // 指定绑定的范围对象
+                data:{
+                    goods_list: [],
+                    page_range: []
+                },  // 具体绑定的数据对象
+                created:function () {
+                    this.$http.get("/APIgoods/").then(  // 发起ajax get请求
+                        function (data) {
+                            this.goods_list = data.data.results;  // 将接受的数据绑定到vue对象上
+                            page_number = Math.ceil(data.data.count/3);
+                            var page_range = [...new Array(page_number+1).keys()];
+                            console.log(page_range);
+                            this.page_range = page_range;  // 将接受的数据绑定到vue对象上
+                            console.log( page_range);
+                            console.log(this.goods_list)
+                        }, // 请求成功执行的函数
+                        function (error) {
+                            console.log(error)
+                        }
+                    )
+                }, // 初始化方法
+                methods: {
+                    get_page_data:function (page) {
+                        console.log(page);
+                        this.$http.get("/APIgoods/?page="+page).then(  // 发起ajax get请求
+                        function (data) {
+                            this.goods_list = data.data.results;  // 将接受的数据绑定到vue对象上  data.data.results
+                            page_number = Math.ceil(data.data.count/3);
+                            var page_range = [...new Array(page_number+1).keys()];
+                            this.page_range = page_range;  // 将接受的数据绑定到vue对象上
+                            console.log(page_range);
+                        }, // 请求成功执行的函数
+                        function (error) {
+                            console.log(error)
+                        }
+                    )
+                    }
+                }
+            }
+        )
+    </script>
+{% endblock %}

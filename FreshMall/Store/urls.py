@@ -11,14 +11,15 @@ urlpatterns = [
     path('add_goods_type/', add_goods_type),    # 添加商品类型
     path('goods_type/', goods_type),            # 商品类型分页展示
     path('order_list/', order_list),            # 订单列表
+    path('delete_order/', delete_order),            # 删除订单 new
     re_path(r'list_goods/(?P<state>\w+)', list_goods),  # 商品列表页
     path('delete_goods_type/', delete_goods_type),  # 删除商品类型
-    # path('destroy/', destroy),
     re_path(r'set_goods/(?P<state>\w+)', set_goods),  # 商品上架下架
     re_path(r'^descript_goods/(?P<goods_id>\d+)', descript_goods),  # 商品描述
     re_path(r'update_goods/(?P<goods_id>\d+)', update_goods),  # 详情修改页
 ]
 
 urlpatterns += [
-    path('base/', base)
+    path('base/', base),
+    path('agl/', ajax_goods_list),  # ajax接口实现后台商品列表展示
 ]

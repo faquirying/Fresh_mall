@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Store',
     'Buyer',
     'ckeditor',
+    'rest_framework',
     'ckeditor_uploader'
 ]
 
@@ -132,4 +133,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static")
 # STATIC_ROOT = os.path.join(BASE_DIR, "static")  # 当前项目的静态文件根目录
 
 CKEDITOR_UPLOAD_PATH = 'static/upload'  # 基于ckeditor的上传地址
-CKEDITOR_IMAGE_BACKEND = 'pillow' # ckeditor上传图片使用的模块
+CKEDITOR_IMAGE_BACKEND = 'pillow'  # ckeditor上传图片使用的模块
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 3
+}

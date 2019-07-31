@@ -225,7 +225,7 @@ def set_goods(request,state):
 @loginValid
 def descript_goods(request,goods_id):
     goods_data = Goods.objects.filter(id=goods_id).first()
-    return render(request,"store/descript_goods.html",locals())
+    return render(request, "store/descript_goods.html", locals())
 
 
 # 详情修改页
@@ -298,7 +298,47 @@ def order_list(request):
     订单列表
     """
     store_id = request.COOKIES.get("has_store")
-    order_list = OrderDetail.objects.filter(order_id__order_status=2,goods_store=store_id)
-    return render(request,"store/order_list.html",locals())
+    order_list = OrderDetail.objects.filter(order_id__order_status=2, goods_store=store_id)
+    # print(order_list)
+    # for order in order_list:
+    #     a = order.order_id
+    #     print(a.order_price)
+    return render(request,"store/order_list.html", locals())
+
+
+from rest_framework import viewsets
+
+from Store.serializers import *
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    定义视图行为
+    """
+    queryset = Goods.objects.all()  # 具体返回的数据
+    serializer_class = UserSerializer  # 指定过滤的类
+
+
+class TypeViewSet(viewsets.ModelViewSet):
+    """
+    返回具体的查询内容
+    """
+    queryset = GoodsType.objects.all()
+    serializer_class = GoodsTypeSerializer
+
+
+def ajax_goods_list(request):
+    return render(request, "store/ajax_goods_list.html")
+
+
+def delete_order(request):
+    referer = request.META.get("HTTP_REFERER")
+    order_id = request.GET.get("order_id")
+    order = Order.objects.filter(id=int(order_id))  #
+    orderlist = order.orderdetail_set.all()
+    print(order)
+    print(orderlist)
+    # order.delete()
+    return HttpResponseRedirect(referer)
 
 
