@@ -36,49 +36,18 @@
               </div>
               <form class="user" method="post">
                   {% csrf_token %}
-{#                <div class="form-group row">#}
-{#                  <div class="col-sm-6 mb-3 mb-sm-0">#}
-{#                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="First Name">#}
-{#                  </div>#}
-{#                  <div class="col-sm-6">#}
-{#                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Last Name">#}
-{#                  </div>#}
-{#                </div>#}
-{#                <div class="form-group">#}
-{#                  <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address">#}
-{#                </div>#}
                   <div class="form-group">
-                  <input type="text" class="form-control form-control-user" name="username" placeholder="用户名">
-                </div>
+                  <input type="text" class="form-control form-control-user" id="username" name="username" placeholder="用户名">
+                  <span id="content"></span>
+                  </div>
                   <div class="form-group">
                   <input type="password" class="form-control form-control-user" name="password" placeholder="密码">
                 </div>
-{#                <div class="form-group row">#}
-{#                  <div class="col-sm-6 mb-3 mb-sm-0">#}
-{#                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">#}
-{#                  </div>#}
-{#                  <div class="col-sm-6">#}
-{#                    <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repeat Password">#}
-{#                  </div>#}
-{#                </div>#}
+
                   <div class="form-group">
-                  <input type="submit" class="btn btn-primary btn-user btn-block" value="注册">
+                  <input type="submit" class="btn btn-primary btn-user btn-block" id="submit" value="注册">
                 </div>
-{#                <a href="/store/login" class="btn btn-primary btn-user btn-block">#}
-{#                  注册#}
-{#                </a>#}
                 <hr>
-{#                <a href="index.html" class="btn btn-google btn-user btn-block">#}
-{#                  <i class="fab fa-google fa-fw"></i> Register with Google#}
-{#                </a>#}
-{#                <a href="index.html" class="btn btn-facebook btn-user btn-block">#}
-{#                  <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook#}
-{#                </a>#}
-{#              </form>#}
-{#              <hr>#}
-{#              <div class="text-center">#}
-{#                <a class="small" href="forgot-password.html">Forgot Password?</a>#}
-{#              </div>#}
               <div class="text-center">
                 <a class="small" href="/store/login">已有账号，去登录</a>
               </div>
@@ -99,7 +68,36 @@
 
   <!-- Custom scripts for all pages-->
   <script src="/static/store/js/sb-admin-2.min.js"></script>
-
+{#  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>#}
+  <script>
+      $("#username").blur(
+          function () {
+              var username = $("#username").val();   // 获取输入的用户名
+              var url = "/store/ajax_register/?username="+username;  //拼接url
+              $.ajax(   // 发起ajax请求，是jq ajax的固定格式
+                  {     // Ajax配置必须在一个对象（字典）中
+                      url: url,  //请求的路由
+                      type: "get",  //请求的类型
+                      data: "",   //请求携带的参数
+                      success: function (data) {    // 请求成功之后的数据
+                          var content = data.content;
+                          {#console.log(content);#}
+                          $("#content").text(content);
+                          var status = data.status;
+                          if (status == 'error'){
+                              $('#submit').attr("disabled",true);
+                          }else{
+                              $('#submit').attr("disabled",false);
+                          }
+                      },
+                      error: function (error) {     // 请求失败的数据
+                          console.log(error)
+                      }
+                  }
+              )
+          }
+      )
+  </script>
 </body>
 
 </html>

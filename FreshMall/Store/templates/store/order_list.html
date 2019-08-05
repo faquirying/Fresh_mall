@@ -16,7 +16,7 @@
             {% for order in order_list %}
             <tr>
                 <td>{{ order.order_id.order_id }}</td>
-                <td>{{ order.goods_name }}</td>
+                <td>{{ order.order_id.order_user.username }}</td>
                 <td>{{ order.goods_total }}</td>
                 <td>
                     <a href="#" class="btn btn-primary">确认发货</a>

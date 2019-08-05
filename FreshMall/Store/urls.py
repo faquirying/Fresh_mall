@@ -19,7 +19,11 @@ urlpatterns = [
     re_path(r'update_goods/(?P<goods_id>\d+)', update_goods),  # 详情修改页
 ]
 
+from django.views.decorators.cache import cache_page
 urlpatterns += [
     path('base/', base),
+    path('get_add/', get_add),
+    path('swv/', cache_page(60*15)(small_white_view)),
     path('agl/', ajax_goods_list),  # ajax接口实现后台商品列表展示
+    path('ajax_register/', ajax_register),  # 用户注册验证
 ]

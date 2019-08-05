@@ -1,0 +1,26 @@
+{% extends "store/base.html" %}
+{% block title %}
+    订单列表
+{% endblock %}
+{% block content %}
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>店铺名称</th>
+            <th>商品名称</th>
+            <th>购买数量</th>
+            <th>小计</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for order in order_list %}
+            <tr>
+                <td>{{ order.order_id.order_id }}</td>
+                <td>{{ order.order_id.order_id }}</td>
+                <td>{{ order.order_id.order_id }}</td>
+                <td>{{ order.order_id.order_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+{% endblock %}

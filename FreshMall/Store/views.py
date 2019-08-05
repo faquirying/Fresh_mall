@@ -60,7 +60,8 @@ def login(request):
        登陆功能，如果登陆成功，跳转到index
        如果失败，跳转到login页
     """
-    response = render(request,"store/login.html")
+    result = {"content": ""}
+    response = render(request, "store/login.html", locals())
     response.set_cookie("login_from", "login_page")
     if request.method == "POST":
         username = request.POST.get("username")
@@ -84,7 +85,32 @@ def login(request):
                         response.set_cookie("has_store", store.id)
                     else:
                         response.set_cookie("has_store", "")
+                else:
+                    result["content"] = "输入的密码有误，请重新输入"
+            else:
+                result["content"] = "用户名不存在"
+        else:
+            result["content"] = "用户名或密码不能为空"
     return response
+
+
+# ajax注册校验
+def ajax_register(request):
+    result = {"status": "error", "content": ""}  # 初始化一个返回结果的格式
+    if request.method == "GET":
+        username = request.GET.get("username")  # 获取ajax get请求过来的username
+        print(username)
+        if username:
+            user = Seller.objects.filter(username=username).first()
+            if user:
+                result["content"] = "用户名已存在"
+            else:
+                result["status"] = "success"
+                result["content"] = "用户名可以使用"
+        else:
+            result["content"] = "用户名不可以为空"
+        print(result)
+    return JsonResponse(result)
 
 
 def out_login(request):
@@ -95,6 +121,7 @@ def out_login(request):
 
 def base(request):
     return render(request,"store/base.html",locals())
+
 
 # 添加店铺
 @loginValid
@@ -128,7 +155,7 @@ def register_store(request):
             store_type = StoreType.objects.get(id=i)  # 查询类型数据
             store.type.add(store_type)  # 添加到类型字段，多对多的映射表
         store.save()  # 保存数据
-        response = HttpResponseRedirect("/store/list_goods")
+        response = HttpResponseRedirect("/store/index")
         response.set_cookie("has_store", store.id)
         return response
     return render(request, "store/register_store.html", locals())
@@ -162,11 +189,12 @@ def add_goods(request):
         goods.goods_safeDate = goods_safeDate
         goods.goods_image = goods_image
         goods.goods_type = GoodsType.objects.get(id=int(goods_type))
-        goods.store_id = Store.objects.get(id = int(goods_store))
+        goods.store_id = Store.objects.get(id=int(goods_store))
         goods.save()
 
         return HttpResponseRedirect("/store/list_goods/up/")
-    return render(request, "store/add_goods.html",locals())
+    return render(request, "store/add_goods.html", locals())
+
 
 @loginValid
 def list_goods(request,state):
@@ -183,16 +211,18 @@ def list_goods(request,state):
     store_id = request.COOKIES.get("has_store")
     store = Store.objects.get(id=int(store_id))
     if keywords:  # 判断关键词是否存在
-        goods_list = store.goods_set.filter(goods_name__contains=keywords,goods_status=state_num)  # 完成了模糊查询
+        goods_list = store.goods_set.filter(goods_name__contains=keywords, goods_status=state_num).order_by('-id')
+        #  完成了模糊查询
     else:  # 如果关键词不存在，查询所有
-        goods_list = store.goods_set.filter(goods_status=state_num)
+        goods_list = store.goods_set.filter(goods_status=state_num).order_by('-id')
     # 分页，每页5条
-    paginator = Paginator(goods_list, 5)
+    paginator = Paginator(goods_list, 3)
     page = paginator.page(int(page_num))
     page_range = paginator.page_range
     print(page_range)
     # 返回分页数据
     return render(request, "store/list_goods.html", {"page": page, "page_range": page_range, "keywords": keywords, "state": state})
+
 
 # 货物列表销毁项
 def destroy(request):
@@ -242,7 +272,7 @@ def update_goods(request,goods_id):
         goods_safeDate = request.POST.get("goods_safeDate")
         goods_image = request.FILES.get("goods_image")
         # 修改数据
-        goods = Goods.objects.get(id = int(goods_id))  # 获取当前商品
+        goods = Goods.objects.get(id=int(goods_id))  # 获取当前商品
         goods.goods_name = goods_name
         goods.goods_price = goods_price
         goods.goods_number = goods_number
@@ -298,17 +328,20 @@ def order_list(request):
     订单列表
     """
     store_id = request.COOKIES.get("has_store")
+    page_num = request.GET.get("page_num", 1)
     order_list = OrderDetail.objects.filter(order_id__order_status=2, goods_store=store_id)
-    # print(order_list)
-    # for order in order_list:
-    #     a = order.order_id
-    #     print(a.order_price)
-    return render(request,"store/order_list.html", locals())
+    paginator = Paginator(order_list, 3)  # 展示的内容和每一页展示的数据的条数
+    page = paginator.page(int(page_num))
+    page_range = paginator.page_range
+    # order = OrderDetail.objects.filter(goods_store=store_id)
+    # order_list = order.order_set
+    return render(request, "store/order_list.html", locals())
 
 
 from rest_framework import viewsets
 
 from Store.serializers import *
+from django_filters.rest_framework import DjangoFilterBackend   # 导入过滤器
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -317,6 +350,8 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = Goods.objects.all()  # 具体返回的数据
     serializer_class = UserSerializer  # 指定过滤的类
+    filter_backends = [DjangoFilterBackend]  # 采用哪个过滤器
+    filterset_fields = ['goods_name', 'goods_price']  # 进行查询的字段
 
 
 class TypeViewSet(viewsets.ModelViewSet):
@@ -340,5 +375,23 @@ def delete_order(request):
     print(orderlist)
     # order.delete()
     return HttpResponseRedirect(referer)
+
+
+from CeleryTask.tasks import add
+from django.http import JsonResponse
+
+
+def get_add(request):
+    add.delay(2, 3)
+    return JsonResponse({"status": 200})
+
+
+from django.views.decorators.cache import cache_page
+
+
+@cache_page(60*15)  # 对当前视图进行缓存，缓存的寿命是15分钟
+def small_white_view(request):
+    return HttpResponse("小白的视图")
+
 
 

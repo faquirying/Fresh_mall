@@ -249,7 +249,7 @@ def detail(request):
     if goods_id:
         goods = Goods.objects.filter(id=int(goods_id)).first()
         if goods:
-            return render(request,"buyer/detail.html",{"goods":goods})
+            return render(request, "buyer/detail.html", {"goods": goods})
     return HttpResponse("无法找到商品详情页")
 
 
@@ -275,9 +275,9 @@ def order(request):
         price = goods.goods_price
         # 向订单表提交数据
         order = Order()
-        order.order_id = setOrderId(str(user_id),str(goods_id),str(store_id))
+        order.order_id = setOrderId(str(user_id), str(goods_id), str(store_id))
         order.goods_count = count
-        order.order_user = Buyer.objects.get(id = user_id)
+        order.order_user = Buyer.objects.get(id=user_id)
         order.order_price = count * price
         order.order_status = 1
         order.save()
