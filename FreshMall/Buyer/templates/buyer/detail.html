@@ -61,7 +61,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         function changeCount(opreate){
-            var value = $("#count").val()
+            var value = $("#count").val();
             if (opreate == "add"){
                 $("#count").val(++value)
             }else {
@@ -80,6 +80,7 @@
         }
         $("#add_cart").click(
             function () {
+                alert("添加成功");
                 var count = $("#count").val();
                 var goods_id = $("#goods_id").val();
                 var sendData = {

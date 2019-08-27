@@ -8,9 +8,13 @@ from Buyer.models import *
 # Create your views here.
 
 
+# 密码加密
 def set_password(password):
+    # 实例化md5
     md5 = hashlib.md5()
+    # 密码传值
     md5.update(password.encode())
+    # md5.hexdigest()
     result = md5.hexdigest()
     return result
 
@@ -22,27 +26,39 @@ def register(request):
     进行注册数据保存
     """
     if request.method == "POST":
+        # 获取前端提交的用户信息
         username = request.POST.get("username")
         password = request.POST.get("password")
+        # 如果不为空
         if username and password:
+            # 检测Seller表中是否有该用户
             user = Seller.objects.filter(username=username).first()
+            # 如果该用户名未被注册
             if not user:
+                # 将用户信息存入Seller表当中
                 seller = Seller()
                 seller.username = username
                 seller.password = set_password(password)
                 seller.nickname = username
                 seller.save()
+                # 重定向到的登录页面
                 return HttpResponseRedirect("/store/login/")
-    return render(request,"store/register.html", locals())
+    # 否则留在注册页面
+    return render(request, "store/register.html", locals())
 
 
+# cookie 与 session 校验
 def loginValid(fun):
-    def inner(request,*args,**kwargs):
+    def inner(request, *args, **kwargs):
+        # 获取cookie与session
         c_user = request.COOKIES.get("username")
         s_user = request.session.get("username")
+        # 如果cookie与session存在并且相同
         if c_user and s_user and c_user == s_user:
-            return fun(request,*args,**kwargs)
+            # 返回要跳转的页面
+            return fun(request, *args, **kwargs)
         else:
+            # 否则重定向到登录页面
             return HttpResponseRedirect("/store/login")
     return inner
 
@@ -60,12 +76,17 @@ def login(request):
        登陆功能，如果登陆成功，跳转到index
        如果失败，跳转到login页
     """
+    # 设置错误字典
     result = {"content": ""}
+    # 如果登录校验不通过，返回登录界面
     response = render(request, "store/login.html", locals())
+    # 设置cookie
     response.set_cookie("login_from", "login_page")
     if request.method == "POST":
+        # 获取前端post过来的username和password
         username = request.POST.get("username")
         password = request.POST.get("password")
+        # 如果username和password不为空
         if username and password:
             # 校验的是用户名是否存在
             user = Seller.objects.filter(username = username).first()
@@ -80,10 +101,12 @@ def login(request):
                     response.set_cookie("user_id", user.id)  # cookie提供用户id方便其他功能查询
                     request.session["username"] = username
                     # 校验是否有店铺
-                    store = Store.objects.filter(user_id=user.id).first() # 再查询店铺是否存在
+                    store = Store.objects.filter(user_id=user.id).first()  # 再查询店铺是否存在
                     if store:
+                        # 店铺存在，设置cookie “has_store” 为 店铺id
                         response.set_cookie("has_store", store.id)
                     else:
+                        # 店铺不存子， 设置cookie “has_store” 为空
                         response.set_cookie("has_store", "")
                 else:
                     result["content"] = "输入的密码有误，请重新输入"
@@ -96,15 +119,18 @@ def login(request):
 
 # ajax注册校验
 def ajax_register(request):
-    result = {"status": "error", "content": ""}  # 初始化一个返回结果的格式
+    result = {"status": "error", "content": ""}  # 初始化一个要返回的结果字典
     if request.method == "GET":
         username = request.GET.get("username")  # 获取ajax get请求过来的username
-        print(username)
+        # 获取到的 username 不为空
         if username:
+            # 在seller表当中查找对应username
             user = Seller.objects.filter(username=username).first()
             if user:
+                # user 不为空，用户名存在
                 result["content"] = "用户名已存在"
             else:
+                # user 为空，说明用户名可用
                 result["status"] = "success"
                 result["content"] = "用户名可以使用"
         else:
@@ -114,20 +140,25 @@ def ajax_register(request):
 
 
 def out_login(request):
+    # 退出登录后，回到登录页面
     response = HttpResponseRedirect('/store/login/')
+    # 删除cookie
     response.delete_cookie('username')
     return response
 
 
 def base(request):
+    # base页视图
     return render(request,"store/base.html",locals())
 
 
 # 添加店铺
 @loginValid
 def register_store(request):
+    # 从店铺类型表当中获取所有的店铺类型
     type_list = StoreType.objects.all()
     if request.method == "POST":
+        # 获取post来的各项内容
         post_data = request.POST  # 接收post数据
         store_name = post_data.get("store_name")
         store_descripton = post_data.get("store_descripton")
@@ -135,8 +166,10 @@ def register_store(request):
         store_money = post_data.get("store_money")
         store_address = post_data.get("store_address")
 
-        user_id = int(request.COOKIES.get("user_id"))  # 通过cookie来得到user_id
-        type_list = post_data.get("type")  # 通过request.post得到类型，但是是一个列表
+        # 通过cookie来得到user_id
+        user_id = int(request.COOKIES.get("user_id"))
+        # 通过request.post得到类型，但是是一个列表
+        type_list = post_data.get("type")
 
         store_logo = request.FILES.get("store_logo")  # 通过request.FILES得到
 
@@ -156,6 +189,7 @@ def register_store(request):
             store.type.add(store_type)  # 添加到类型字段，多对多的映射表
         store.save()  # 保存数据
         response = HttpResponseRedirect("/store/index")
+        # 给用户添加 has_store
         response.set_cookie("has_store", store.id)
         return response
     return render(request, "store/register_store.html", locals())
@@ -163,7 +197,7 @@ def register_store(request):
 
 def add_goods(request):
     """
-    负责添加商品
+        负责添加商品
     """
     goods_type_list = GoodsType.objects.all()
     if request.method == "POST":

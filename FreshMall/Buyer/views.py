@@ -7,18 +7,22 @@ from Buyer.models import *
 from Store.models import *
 from Store.views import set_password
 
-from alipay import AliPay
+from alipay import BaseAliPay
 
 import time
+
 
 # Create your views here.
 def loginValid(fun):
     """
     登录校验
     """
-    def inner(request,*args,**kwargs):
+    def inner(request, *args, **kwargs):
+        # 获取cookies
         c_user = request.COOKIES.get("username")
+        # 获取session
         s_user = request.session.get("username")
+        #
         if c_user and s_user and c_user == s_user:
             return fun(request,*args,**kwargs)
         else:
@@ -30,10 +34,10 @@ def base(request):
     return render(request,"buyer/base.html")
 
 
-@ loginValid
 def index(request):
     """
     前端首页
+        如果登录就
     """
     result_list = []  # 定义一个容器来存放结果
     goods_type_list = GoodsType.objects.all()  # 查询所有的类型
@@ -49,10 +53,9 @@ def index(request):
             }  # 构建输出结果
             #  查询类型当中有数据的数据
             result_list.append(goodsType)
-    return render(request,"buyer/index.html",locals())
+    return render(request,"buyer/index.html", locals())
 
 
-@loginValid
 def goods_list(request):
     """
     列表详情页
@@ -84,7 +87,8 @@ def login(request):
                 response.set_cookie("username",user.username)
                 request.session["username"] = user.username
                 # 方便其他查询
-                response.set_cookie("user_id",user.id)
+                request.session["user_id"] = user.id
+                # response.set_cookie("user_id",user.id)
                 return response
     return render(request,"buyer/login.html")
 
@@ -115,24 +119,28 @@ def logout(request):
     for key in request.COOKIES:
         response.delete_cookie(key)
     del request.session["username"]
+    del request.session["user_id"]
     return response
 
 
 def add_cart(request):
     """
-    向购物车添加商品
+        向购物车添加商品
+            ajax前端请求，将数量和商品id传到后台
     """
     result = {"state": "error", "data": ""}
     if request.method == "POST":
-        # request请求
+        # ajax post获取商品购买数量和商品id
         count = int(request.POST.get("count"))
         goods_id = request.POST.get("goods_id")
-        # 数据库查询
+        # 根据商品id查出商品表中对应的这个商品
         goods = Goods.objects.get(id=int(goods_id))
-        # cookie数据
-        user_id = request.COOKIES.get("user_id")
+        # 用cookie获取买家id
+        user_id = request.session.get("user_id")
+        # print(count,goods_id,user_id)
 
         cart = Cart()
+        # 购物车表中字段一一对应存储
         cart.goods_name = goods.goods_name
         cart.goods_price = goods.goods_price
         cart.goods_total = goods.goods_price * count
@@ -141,6 +149,7 @@ def add_cart(request):
         cart.goods_id = goods.id
         cart.goods_store = goods.store_id.id
         cart.user_id = user_id
+        print(cart.goods_name,cart.user_id)
         cart.save()
         result["state"] = "success"
         result["data"] = "商品添加成功"
@@ -153,8 +162,13 @@ def cart(request):
     """
     查看购物车
     """
-    user_id = request.COOKIES.get("user_id")
+    user_id = request.session.get("user_id")
     goods_list = Cart.objects.filter(user_id=user_id)
+    total, num = 0, 0
+    for goods in goods_list:
+        total += goods.goods_total
+        num += goods.goods_number
+    goods_lenth = len(goods_list)
     if request.method == "POST":
         post_data = request.POST
         cart_data = []  # 收集前端传递过来的商品
@@ -205,7 +219,7 @@ def pay_order(request):
     -----END RSA PRIVATE KEY-----"""
 
     # 实例化支付应用
-    alipay = AliPay(
+    alipay = BaseAliPay(
         appid="2016101000652488",
         app_notify_url=None,
         app_private_key_string=app_private_key_string,
@@ -309,5 +323,22 @@ def order(request):
             return HttpResponse('非法请求')
 
 
-def order_delete(request):
-    pass
+# 购物车单条数据删除
+def cart_delete(request):
+    # 1.购物车的id
+    goods_id = request.GET.get("id")
+    # 2.在购物车找到该条，并删除
+    Cart.objects.filter(id=goods_id).delete()
+    return HttpResponseRedirect('/buyer/cart/')
+
+
+# 清空购物车操作
+def car_clear(request):
+    """
+         get user_id delete cart Model
+    """
+    user_id = request.session.get('user_id')
+    Cart.objects.get(user_id=user_id).delete()
+    return HttpResponseRedirect('/buyer/cart/')
+
+

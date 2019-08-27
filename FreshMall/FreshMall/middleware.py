@@ -1,6 +1,7 @@
 # coding:utf-8
 from django.utils.deprecation import MiddlewareMixin  # 中间件的元类，所有自定义的中间件自定义时都必须实现方法重写
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 
 
 class MiddlewareTest(MiddlewareMixin):
@@ -21,10 +22,22 @@ class MiddlewareTest(MiddlewareMixin):
     #     """
     #     print("这是process_view")
     #
+    # def process_template_response(self,request,response):
+    #     """
+    #     :param request:视图处理中的请求
+    #     :param response:
+    #     :return:
+    #     """
+    #     print('这是process_template_response')
+    #
+    # def process_response(self,request,response):
+    #     print('这是process_response')
+    #
     # def process_exception(self, request, exception):
     #     """
     #     :param request: 视图处理中的请求
     #     :param exception: 错误
     #     :return:
     #     """
-    #     print("这是process_exception")
+    #     print("出错了")
+    #     return HttpResponseRedirect("/404/")

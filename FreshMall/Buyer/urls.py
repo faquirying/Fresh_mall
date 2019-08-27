@@ -16,4 +16,5 @@ urlpatterns = [
 
 urlpatterns += [
     path("base/", base),
+    path("cart_delete/", cart_delete),  # 购物车单条数据删除
 ]

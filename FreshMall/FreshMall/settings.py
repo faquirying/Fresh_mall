@@ -46,7 +46,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.cache.UpdateCacheMiddleware',  # 全栈粒度缓存配置首部
+    # 一层层安检
+    # 'django.middleware.cache.UpdateCacheMiddleware',  # 全栈粒度缓存配置首部
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,7 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'FreshMall.middleware.MiddlewareTest',
-    'django.middleware.cache.FetchFromCacheMiddleware',  # 全栈粒度缓存配置尾部
+    # 'django.middleware.cache.FetchFromCacheMiddleware',  # 全栈粒度缓存配置尾部
 ]
 
 ROOT_URLCONF = 'FreshMall.urls'
@@ -225,12 +226,12 @@ CELERYBEAT_SCHEDULE = {    # 定时器策略
 # }
 
 # 数据库缓存
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',  # 默认使用数据库缓存
-        'LOCATION': 'cache_table'  # 存放缓存的表
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',  # 默认使用数据库缓存
+#         'LOCATION': 'cache_table'  # 存放缓存的表
+#     }
+# }
 # 全栈粒度缓存配置
-CACHE_MIDDLEWARE_KEY_PREFIX = ''
-CACHE_MIDDLEWARE_SECONDS = 600
+# CACHE_MIDDLEWARE_KEY_PREFIX = ''
+# CACHE_MIDDLEWARE_SECONDS = 600
