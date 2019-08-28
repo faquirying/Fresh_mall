@@ -34,6 +34,57 @@ def base(request):
     return render(request,"buyer/base.html")
 
 
+def register(request):
+    """
+    前端注册页
+    """
+    if request.method == "POST":
+        # 获取前端post请求的数据
+        username = request.POST.get("user_name")
+        password = request.POST.get("pwd")
+        email = request.POST.get("email")
+        buyer = Buyer()
+        buyer.username = username
+        buyer.password = set_password(password)
+        buyer.email = email
+        buyer.save()
+        return HttpResponseRedirect("/buyer/login")
+    return render(request,"buyer/register.html")
+
+
+def login(request):
+    """
+    前端登录页面
+    """
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("pwd")
+        if username and password:
+            user = Buyer.objects.filter(username=username).first()
+            if user and user.password == set_password(password):
+                response = HttpResponseRedirect("/buyer/index")
+                # 登录校验
+                response.set_cookie("username",user.username)
+                request.session["username"] = user.username
+                # 方便其他查询
+                request.session["user_id"] = user.id
+                # response.set_cookie("user_id",user.id)
+                return response
+    return render(request,"buyer/login.html")
+
+
+def logout(request):
+    """
+    退出登录
+    """
+    response = HttpResponseRedirect("/buyer/login")
+    for key in request.COOKIES:
+        response.delete_cookie(key)
+    del request.session["username"]
+    del request.session["user_id"]
+    return response
+
+
 def index(request):
     """
     前端首页
@@ -70,57 +121,6 @@ def goods_list(request):
         goodsList = goods_type.goods_set.filter(goods_status=1)
         print(goodsList)
     return render(request, "buyer/goods_list.html", locals())
-
-
-def login(request):
-    """
-    前端登录页面
-    """
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("pwd")
-        if username and password:
-            user = Buyer.objects.filter(username=username).first()
-            if user and user.password == set_password(password):
-                response = HttpResponseRedirect("/buyer/index")
-                # 登录校验
-                response.set_cookie("username",user.username)
-                request.session["username"] = user.username
-                # 方便其他查询
-                request.session["user_id"] = user.id
-                # response.set_cookie("user_id",user.id)
-                return response
-    return render(request,"buyer/login.html")
-
-
-def register(request):
-    """
-    前端注册页
-    """
-    if request.method == "POST":
-        # 获取前端post请求的数据
-        username = request.POST.get("user_name")
-        password = request.POST.get("pwd")
-        email = request.POST.get("email")
-        buyer = Buyer()
-        buyer.username = username
-        buyer.password = set_password(password)
-        buyer.email = email
-        buyer.save()
-        return HttpResponseRedirect("/buyer/login")
-    return render(request,"buyer/register.html")
-
-
-def logout(request):
-    """
-    退出登录
-    """
-    response = HttpResponseRedirect("/buyer/login")
-    for key in request.COOKIES:
-        response.delete_cookie(key)
-    del request.session["username"]
-    del request.session["user_id"]
-    return response
 
 
 def add_cart(request):
@@ -275,6 +275,7 @@ def setOrderId(user_id,goods_id,store_id):
     return strtime + user_id + goods_id + store_id
 
 
+@ loginValid
 def order(request):
     if request.method == "POST":
         # post 数据
@@ -342,3 +343,14 @@ def car_clear(request):
     return HttpResponseRedirect('/buyer/cart/')
 
 
+def user_info(request):
+
+    return render(request, 'buyer/user_info.html')
+
+
+def user_order(request):
+    return render(request, 'buyer/user_order.html')
+
+
+def user_site(request):
+    return render(request, 'buyer/user_site.html')
